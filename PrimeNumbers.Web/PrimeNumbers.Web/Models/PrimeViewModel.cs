@@ -36,9 +36,15 @@ namespace PrimeNumbers.Web.Models
         public void Populate(List<int> primes)
         {
             this.Primes = primes;
-            foreach(var prime in primes)
+            foreach(var prime in this.Primes)
             {
-                Rows.Add(new List<int>());
+                var firstItem = prime;
+                var row = new List<int> { firstItem };
+                
+                foreach(var i in this.Primes)
+                    row.Add(i * firstItem);
+
+                Rows.Add(row);
             }
             
         }

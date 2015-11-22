@@ -52,5 +52,33 @@ namespace PrimeNumbers.Web.Tests.Models
             }
         }
 
+        [TestMethod]
+        public void then_each_row_contains_number_of_primes_plus_one_items()
+        {
+            Execute();
+
+            foreach(var row in _model.Rows)
+            {
+                row.Count.ShouldEqual(_model.Primes.Count + 1);
+            }
+        }
+
+        [TestMethod]
+        public void then_each_member_in_row_is_a_multiple_of_its_row_first_item_and_prime_index()
+        {
+            Execute();
+
+            for(var i = 0; i < _model.Primes.Count; i ++)
+            {
+                var row = _model.Rows[i];
+                for (var y = 1; y < row.Count; y ++)
+                {
+                    var expected = _model.Primes[y -1] * row[0];
+                    var actual = row[y];
+                    actual.ShouldEqual(expected);
+                }
+            }
+        }
+
     }
 }
