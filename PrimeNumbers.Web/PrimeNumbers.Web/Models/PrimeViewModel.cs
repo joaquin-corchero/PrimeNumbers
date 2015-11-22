@@ -8,7 +8,7 @@ namespace PrimeNumbers.Web.Models
     {
         private const int NUMBER_OF_PRIMES_TO_DISPLAY = 10;
         [Required]
-        [Range(minimum: 1, maximum: NUMBER_OF_PRIMES_TO_DISPLAY)]
+        [Range(minimum: 1, maximum: 2000000)]
         [Display(Name = "Number of primes to calculate")]
         public int? NumberOfPrimesToCalculate { get; set; }
 

@@ -21,7 +21,7 @@ namespace PrimeNumbers.Web.Services
 
         protected int NumberOfPrimes { get; private set; }
 
-        protected void ResetCache()
+        public void ResetCache()
         {
             _primesCache = new List<long>();
         }
@@ -38,11 +38,7 @@ namespace PrimeNumbers.Web.Services
 
         public abstract List<long> GeneratePrimes();
 
-        protected int ApproximateNthPrime()
-        {
-            return (int)ApproximsssateNthPrime();
-        }
-
+       
         protected long ApproximateNthPrimeLong()
         {
             return (long)ApproximsssateNthPrime();

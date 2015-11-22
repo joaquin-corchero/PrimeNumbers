@@ -13,7 +13,7 @@ namespace PrimeNumbers.Web.Services
         {
             long limit = base.ApproximateNthPrimeLong();
 
-            bool[] bits = SiebeOfErathosthenes(limit);
+            bool[] bits = SieveOfErathosthenes(limit);
 
             base.ResetCache();
             for (int i = 0, found = 0; i < limit && found < NumberOfPrimes; i++)
@@ -27,14 +27,14 @@ namespace PrimeNumbers.Web.Services
             return _primes.Take(NumberOfPrimes).ToList();
         }
 
-        private bool[] SiebeOfErathosthenes(long limit)
+        private bool[] SieveOfErathosthenes(long limit)
         {
             int numberOfArraysNeeded = Convert.ToInt32(Math.Round(Convert.ToDecimal(limit / int.MaxValue), 0));
 
-            bool[] result = new bool[limit];//by default they're all false
+            bool[] result = new bool[limit];
             for (int i = 2; i < limit; i++)
             {
-                result[i] = true;//set all numbers to true
+                result[i] = true;
             }
             //weed out the non primes by finding mutiples 
             for (int j = 2; j < limit; j++)

@@ -8,5 +8,7 @@ namespace PrimeNumbers.Web.Services
     public interface IPrimeNumbersService
     {
         List<long> GetFirstPrimes(int numberOfPrimes);
+
+        void ResetCache();
     }
 }

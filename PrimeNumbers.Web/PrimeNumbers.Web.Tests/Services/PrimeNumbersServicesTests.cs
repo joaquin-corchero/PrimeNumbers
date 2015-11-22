@@ -14,7 +14,10 @@ namespace PrimeNumbers.Web.Tests.Services
         protected int _numberOfPrimesToCalculate = 5;
         protected int _numberOfPrimesToDisplay = 10;
 
-        protected abstract void Execute();
+        protected virtual void Execute()
+        {
+            _service.ResetCache();
+        }
 
         [TestMethod]
         public void then_n_number_of_items_are_returned()
@@ -108,30 +111,8 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
             PrimeHelper.First1000Primes.ForEach(i => _actual.Contains(i).ShouldBeTrue());
         }
-
-        [TestMethod]
-        public void then_20000000_primes_can_be_returned()
-        {
-            _numberOfPrimesToCalculate = 20000000;
-            Execute();
-
-            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
-        }
     }
-    /*
-    [TestClass]
-    public class and_getting_the_n_first_primes_with_the_naive_service : when_working_with_the_prime_number_services
-    {
-        protected override void Establish_context()
-        {
-            _service = new PrimeNumbersServiceNaive();
-        }
-        
-        protected override void Execute()
-        {
-            _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
-        }
-    }*/
+    
 
     [TestClass]
     public class and_getting_the_n_first_primes_with_the_sieve_of_eratosthenes_service : when_working_with_the_prime_number_services
@@ -143,6 +124,7 @@ namespace PrimeNumbers.Web.Tests.Services
 
         protected override void Execute()
         {
+            base.Execute();
             _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
         }
 
@@ -154,20 +136,14 @@ namespace PrimeNumbers.Web.Tests.Services
 
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
         }
+
+        [TestMethod]
+        public void then_20000000_primes_can_be_returned()
+        {
+            _numberOfPrimesToCalculate = 20000000;
+            Execute();
+
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
+        }
     }
-
-    /*
-    [TestClass]
-    public class and_getting_the_n_first_primes_with_the_sieve_of_sundaram_service : when_working_with_the_prime_number_services
-    {
-        protected override void Establish_context()
-        {
-            _service = new SieveOfSundaramPrimeService();
-        }
-
-        protected override void Execute()
-        {
-            _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
-        }
-    }*/
 }
