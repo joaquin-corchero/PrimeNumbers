@@ -20,7 +20,7 @@ namespace PrimeNumbers.Web.Services
                 if(! _primes.Any(p => number % p == 0))
                     _primes.Add(number);
 
-                number++;
+                number = number +2;
             }
 
             return _primes;

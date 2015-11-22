@@ -10,9 +10,14 @@ namespace PrimeNumbers.Web.Tests.Services
 {
     public abstract class when_working_with_the_prime_number_service : SpecBase
     {
-        protected PrimeNumberService _service = new PrimeNumberService();
+        protected PrimeNumberService _service;
 
         protected abstract void Execute();
+
+        protected override void Establish_context()
+        {
+            _service = new PrimeNumberService();
+        }
 
     }
 
@@ -54,12 +59,12 @@ namespace PrimeNumbers.Web.Tests.Services
         {
             Execute();
 
-            _actual.ForEach(n => this.IsOn1000PrimeList(n).ShouldBeTrue());
+            CheckActualIsWithin1000List();
         }
 
-        private bool IsOn1000PrimeList(int number)
+        private void CheckActualIsWithin1000List()
         {
-            return _first1000Primes.Contains(number);
+            _actual.Any(a=> !_first1000Primes.Contains(a)).ShouldBeFalse();
         }
 
         [TestMethod]
@@ -69,7 +74,7 @@ namespace PrimeNumbers.Web.Tests.Services
             Execute();
 
             _actual.Count().ShouldEqual(_numberOfPrimes);
-            _actual.ForEach(n => this.IsOn1000PrimeList(n).ShouldBeTrue());
+            CheckActualIsWithin1000List();
         }
 
         [TestMethod]
@@ -79,7 +84,7 @@ namespace PrimeNumbers.Web.Tests.Services
             Execute();
 
             _actual.Count().ShouldEqual(_numberOfPrimes);
-            _actual.ForEach(n => this.IsOn1000PrimeList(n).ShouldBeTrue());
+            CheckActualIsWithin1000List();
         }
 
 
@@ -92,6 +97,5 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual.Count().ShouldEqual(_numberOfPrimes);
             _first1000Primes.ForEach(i => _actual.Contains(i).ShouldBeTrue());
         }
-
     }
 }
