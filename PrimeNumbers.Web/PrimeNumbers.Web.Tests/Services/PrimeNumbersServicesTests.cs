@@ -127,10 +127,20 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
         }
 
+        [Ignore]
         [TestMethod]
         public void then_big_numbers_of_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 20000000;
+            Execute();
+
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
+        }
+        [Ignore]
+        [TestMethod]
+        public void then_int_max_value_nummbers_of_primes_can_be_returned()
+        {
+            _numberOfPrimesToCalculate = int.MaxValue;
             Execute();
 
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);

@@ -8,17 +8,14 @@ namespace PrimeNumbers.Web.Services
 {
     public class SieveOfEratosthenesPrimeService : PrimeNumbersServiceBase, IPrimeNumbersService
     {
-        public List<long> GetFirstPrimes(int numberOfPrimes)
+        public override List<long> GeneratePrimes()
         {
-            base._numberOfPrimesToCalculate = numberOfPrimes;
-            if (_primes.Count >= numberOfPrimes)
-                return _primes.Take(numberOfPrimes).ToList();
-
             long limit = base.ApproximateNthPrimeLong();
-            //BitArray bits = SieveOfEratosthenes(limit);
+
             bool[] bits = SiebeOfErathosthenes(limit);
+            
             base.ResetCache();
-            for (int i = 0, found = 0; i < limit && found < _numberOfPrimesToCalculate; i++)
+            for (int i = 0, found = 0; i < limit && found < NumberOfPrimes; i++)
             {
                 if (bits[i])
                 {
@@ -26,11 +23,13 @@ namespace PrimeNumbers.Web.Services
                     found++;
                 }
             }
-            return _primes.Take(numberOfPrimes).ToList();
+            return _primes.Take(NumberOfPrimes).ToList();
         }
 
         private bool[] SiebeOfErathosthenes(long limit)
         {
+            int numberOfArraysNeeded = Convert.ToInt32(Math.Round(Convert.ToDecimal(limit / int.MaxValue), 0));
+
             bool[] result = new bool[limit];//by default they're all false
             for (int i = 2; i < limit; i++)
             {
@@ -49,24 +48,6 @@ namespace PrimeNumbers.Web.Services
             }
 
             return result;
-        }
-
-        private BitArray SieveOfEratosthenes(int limit)
-        {
-            BitArray bits = new BitArray(limit + 1, true);
-            bits[0] = false;
-            bits[1] = false;
-            for (int i = 0; i * i <= limit; i++)
-            {
-                if (bits[i])
-                {
-                    for (int j = i * i; j <= limit; j += i)
-                    {
-                        bits[j] = false;
-                    }
-                }
-            }
-            return bits;
         }
     }
 }

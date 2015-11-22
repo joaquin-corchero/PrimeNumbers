@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PrimeNumbers.Web.Services
 {
-    public class PrimeNumbersServiceBase
+    public abstract class PrimeNumbersServiceBase
     {
         private static List<long> _primesCache;
         protected static List<long> _primes
@@ -19,12 +19,24 @@ namespace PrimeNumbers.Web.Services
             }
         }
 
-        protected int _numberOfPrimesToCalculate;
+        protected int NumberOfPrimes { get; private set; }
 
         protected void ResetCache()
         {
             _primesCache = new List<long>();
         }
+
+        public List<long> GetFirstPrimes(int numberOfPrimes)
+        {
+            this.NumberOfPrimes = numberOfPrimes;
+
+            if (_primes.Count >= this.NumberOfPrimes)
+                return _primes.Take(this.NumberOfPrimes).ToList();
+
+            return GeneratePrimes();
+        }
+
+        public abstract List<long> GeneratePrimes();
 
         protected int ApproximateNthPrime()
         {
@@ -38,19 +50,19 @@ namespace PrimeNumbers.Web.Services
 
         protected double ApproximsssateNthPrime()
         {
-            double n = (double)_numberOfPrimesToCalculate;
+            double n = (double)NumberOfPrimes;
             double p;
-            if (_numberOfPrimesToCalculate >= 7022)
+            if (NumberOfPrimes >= 7022)
             {
                 p = n * Math.Log(n) + n * (Math.Log(Math.Log(n)) - 0.9385);
             }
-            else if (_numberOfPrimesToCalculate >= 6)
+            else if (NumberOfPrimes >= 6)
             {
                 p = n * Math.Log(n) + n * Math.Log(Math.Log(n));
             }
-            else if (_numberOfPrimesToCalculate > 0)
+            else if (NumberOfPrimes > 0)
             {
-                p = new int[] { 2, 3, 5, 7, 11 }[_numberOfPrimesToCalculate];
+                p = new int[] { 2, 3, 5, 7, 11 }[NumberOfPrimes];
             }
             else
             {

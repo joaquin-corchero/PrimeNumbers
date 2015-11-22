@@ -8,15 +8,11 @@ namespace PrimeNumbers.Web.Services
 {
     public class SieveOfSundaramPrimeService : PrimeNumbersServiceBase, IPrimeNumbersService
     {
-        public List<long> GetFirstPrimes(int numberOfPrimes)
+        public override List<long> GeneratePrimes()
         {
-            base._numberOfPrimesToCalculate = numberOfPrimes;
-            if (_primes.Count >= numberOfPrimes)
-                return _primes.Take(numberOfPrimes).ToList();
-
             int limit = base.ApproximateNthPrime();
             BitArray bits = SieveOfSundaram(limit);
-            for (int i = 1, found = 1; 2 * i + 1 <= limit && found < _numberOfPrimesToCalculate; i++)
+            for (int i = 1, found = 1; 2 * i + 1 <= limit && found < NumberOfPrimes; i++)
             {
                 if (bits[i])
                 {
@@ -24,7 +20,7 @@ namespace PrimeNumbers.Web.Services
                     found++;
                 }
             }
-            return _primes.Take(numberOfPrimes).ToList();
+            return _primes.Take(NumberOfPrimes).ToList();
         }
 
         private BitArray SieveOfSundaram(int limit)
