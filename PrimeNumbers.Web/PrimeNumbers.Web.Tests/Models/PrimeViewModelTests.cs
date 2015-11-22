@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NBehave.Spec.MSTest;
 using PrimeNumbers.Web.Models;
 
 namespace PrimeNumbers.Web.Tests.Models
 {
-    public class when_working_with_the_prime_view_model : SpecBase
+    public abstract class when_working_with_the_prime_view_model : SpecBase
     {
+        protected abstract void Execute();
     }
 
     [TestClass]
     public class and_populating_the_model : when_working_with_the_prime_view_model
     {
-        private List<int> _primes = new List<int> { 2, 3, 5 };
+        private List<int> _primes;
         private PrimeViewModel _model = new PrimeViewModel(3);
 
-        private void Execute()
+        protected override void Execute()
         {
+            _primes = PrimeHelper.First1000Primes.Take(_model.NumberOfPrimesToReturn.Value).ToList();
             _model.Populate(_primes);
         }
 
@@ -57,10 +56,8 @@ namespace PrimeNumbers.Web.Tests.Models
         {
             Execute();
 
-            foreach(var row in _model.Rows)
-            {
+            foreach (var row in _model.Rows)
                 row.Count.ShouldEqual(_model.Primes.Count + 1);
-            }
         }
 
         [TestMethod]

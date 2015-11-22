@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NBehave.Spec.MSTest;
-using PrimeNumbers.Web;
 using PrimeNumbers.Web.Controllers;
 using PrimeNumbers.Web.Models;
 using PrimeNumbers.Web.Services;

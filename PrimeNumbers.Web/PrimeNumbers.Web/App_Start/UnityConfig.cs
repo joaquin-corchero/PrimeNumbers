@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 using PrimeNumbers.Web.Services;
 
 namespace PrimeNumbers.Web.App_Start
