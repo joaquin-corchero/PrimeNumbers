@@ -29,7 +29,7 @@ namespace PrimeNumbers.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.SetPrimes(_primeNumbersService.GetFirstPrimes(model.NumberOfPrimesToReturn.Value));
+            model.Populate(_primeNumbersService.GetFirstPrimes(model.NumberOfPrimesToReturn.Value));
 
             return View(model);
         }

@@ -15,9 +15,12 @@ namespace PrimeNumbers.Web.Models
 
         public List<int> Primes { get; private set; }
 
+        public List<List<int>> Rows { get; private set; }
+
         public PrimeViewModel()
         {
             Primes = new List<int>();
+            Rows = new List<List<int>>();
         }
 
         public PrimeViewModel(int primesToReturn) : this()
@@ -30,9 +33,14 @@ namespace PrimeNumbers.Web.Models
             return NumberOfPrimesToReturn.GetValueOrDefault(0).ToString();
         }
 
-        internal void SetPrimes(List<int> primes)
+        public void Populate(List<int> primes)
         {
             this.Primes = primes;
+            foreach(var prime in primes)
+            {
+                Rows.Add(new List<int>());
+            }
+            
         }
     }
 }
