@@ -11,11 +11,13 @@ namespace PrimeNumbers.Web.Models.InputModels
         [Required]
         [Range(minimum: 1, maximum:100)]
         [Display(Description = "Number of primes to display")]
-        public int? PrimesToReturn { get; set; }
+        public int? NumberOfPrimesToReturn { get; set; }
+
+        public PrimeInputModel(){}
 
         public PrimeInputModel(int primesToReturn)
         {
-            this.PrimesToReturn = primesToReturn;
+            this.NumberOfPrimesToReturn = primesToReturn;
         }
     }
 }

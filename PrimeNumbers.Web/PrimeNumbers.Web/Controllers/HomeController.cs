@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PrimeNumbers.Web.Models.InputModels;
+using PrimeNumbers.Web.Models.ViewModels;
 using PrimeNumbers.Web.Services;
 
 namespace PrimeNumbers.Web.Controllers
@@ -26,7 +27,12 @@ namespace PrimeNumbers.Web.Controllers
         [HttpPost]
         public ActionResult Index(PrimeInputModel _inputModel)
         {
-            throw new NotImplementedException();
+            PrimeViewModel model = new PrimeViewModel(_inputModel);
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            return View(model);
         }
     }
 }

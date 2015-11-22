@@ -12,7 +12,18 @@ namespace PrimeNumbers.Web.Services
 
     public class PrimeNumbersService : IPrimeNumbersService
     {
-        private static List<int> _primes = new List<int> { 2 };
+        private static List<int> _primesCache;
+
+        private static List<int> _primes
+        {
+            get
+            {
+                if(_primes == null)
+                    _primesCache = new List<int> { 2 };
+
+                return _primesCache;
+            }
+        }
 
         public List<int> GetFirstPrimes(int numberOfPrimes)
         {
@@ -22,13 +33,13 @@ namespace PrimeNumbers.Web.Services
             var number = _primes.LastOrDefault() + 1;
             while (_primes.Count() < numberOfPrimes)
             {
-                if(! _primes.Any(p => number % p == 0))
+                if(!_primes.Any(p => number % p == 0))
                     _primes.Add(number);
 
                 number = number + 2;
             }
 
-            return _primes;
+            return _primesCache;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace PrimeNumbers.Web.Tests.Controllers
     {
         protected HomeController _controller;
         protected Mock<IPrimeNumbersService> _primeService = new Mock<IPrimeNumbersService>();
-        protected ActionResult _actual;
+        protected ViewResult _actual;
 
         protected override void Establish_context()
         {
@@ -36,8 +36,8 @@ namespace PrimeNumbers.Web.Tests.Controllers
 
         protected override void Execute()
         {
-            _actual = _controller.Index();
-            _outputModel = (_actual as ViewResult).Model as PrimeInputModel;
+            _actual = _controller.Index() as ViewResult;
+            _outputModel = _actual.Model as PrimeInputModel;
         }
 
         [TestMethod]
@@ -45,8 +45,16 @@ namespace PrimeNumbers.Web.Tests.Controllers
         {
             Execute();
 
-            _outputModel.PrimesToReturn.ShouldBeNull();
-        }       
+            _outputModel.NumberOfPrimesToReturn.ShouldBeNull();
+        }
+
+        [TestMethod]
+        public void then_the_correct_view_is_returned()
+        {
+            Execute();
+
+            _actual.ViewName.ShouldBeEmpty();
+        }
     }
 
     [TestClass]
@@ -54,11 +62,31 @@ namespace PrimeNumbers.Web.Tests.Controllers
     {
         private PrimeViewModel _viewModel;
         private PrimeInputModel _inputModel = new PrimeInputModel(5);
+        private List<int> _serviceOutPut = new List<int> { 2, 3, 5, 7, 11 };
+
+        protected override void Establish_context()
+        {
+            base.Establish_context();
+            _primeService.Setup(s => s.GetFirstPrimes(It.IsAny<int>())).Returns(_serviceOutPut);
+        }
 
         protected override void Execute()
         {
-            _actual = _controller.Index(_inputModel);
+            _actual = _controller.Index(_inputModel) as ViewResult;
             _viewModel = (_actual as ViewResult).Model as PrimeViewModel;
+        }
+
+        [TestMethod]
+        public void then_if_there_are_validation_errors_with_the_input_the_view_is_returned()
+        {
+            _inputModel = new PrimeInputModel(-1);
+            _controller.ModelState.AddModelError("PrimeInputModel", "There is an issue with the data");
+
+            Execute();
+
+            _controller.ModelState.IsValid.ShouldBeFalse();
+            _viewModel.Primes.ShouldBeEmpty();
+            _actual.ViewName.ShouldBeEmpty();
         }
     }
 }
