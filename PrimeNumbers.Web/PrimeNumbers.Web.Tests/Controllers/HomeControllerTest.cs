@@ -88,5 +88,15 @@ namespace PrimeNumbers.Web.Tests.Controllers
             _viewModel.Primes.ShouldBeEmpty();
             _actual.ViewName.ShouldBeEmpty();
         }
+
+        [TestMethod]
+        public void then_the_primes_get_set_from_the_service()
+        {
+            Execute();
+
+            _primeService.Verify(s => s.GetFirstPrimes(_inputModel.NumberOfPrimesToReturn.Value), Times.Once);
+            _viewModel.NumberOfPrimesToReturn.ShouldEqual(_inputModel.NumberOfPrimesToReturn);
+            _viewModel.Primes.ShouldEqual(_serviceOutPut);
+        }
     }
 }
