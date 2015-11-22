@@ -26,5 +26,17 @@ namespace PrimeNumbers.Web.Tests.Services
 
             actual.Count().ShouldEqual(expected);
         }
+
+        [TestMethod]
+        public void then_numbers_are_ordered_from_smaller_to_greater()
+        {
+            List<int> actual = _service.GetFirstPrimes(20);
+
+            for(var i =0; i < actual.Count() -1; i++)
+            {
+                actual[i + 1].ShouldBeGreaterThan(actual[i]);
+            }
+        }
+
     }
 }
