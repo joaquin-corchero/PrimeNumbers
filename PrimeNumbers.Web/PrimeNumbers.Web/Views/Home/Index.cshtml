@@ -29,11 +29,11 @@
         </div>
         @if (Model.PrimesToDisplay.Any())
         {
-            <h4>Results</h4>
+            <h4>@string.Format("{0} Primes to display", Model.PrimesToDisplay.Count)</h4>
             <table class="table-bordered table-striped table-condensed" id="results">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Primes</th>
                         @for (var i = 0; i < Model.PrimesToDisplay.Count; i++)
                         {
                             <th>@Model.PrimesToDisplay[i]</th>
@@ -46,7 +46,7 @@
                         <tr>
                             @for (var y = 0; y < Model.Rows[i].Count; y++)
                             {
-                                    <td>@Model.Rows[i][y]</td>
+                                <td>@Model.Rows[i][y]</td>
                             }
                         </tr>
                     }

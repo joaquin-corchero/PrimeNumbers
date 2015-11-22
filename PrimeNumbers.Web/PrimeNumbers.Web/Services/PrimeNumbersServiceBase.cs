@@ -28,6 +28,16 @@ namespace PrimeNumbers.Web.Services
 
         protected int ApproximateNthPrime()
         {
+            return (int)ApproximsssateNthPrime();
+        }
+
+        protected long ApproximateNthPrimeLong()
+        {
+            return (long)ApproximsssateNthPrime();
+        }
+
+        protected double ApproximsssateNthPrime()
+        {
             double n = (double)_numberOfPrimesToCalculate;
             double p;
             if (_numberOfPrimesToCalculate >= 7022)
@@ -40,13 +50,14 @@ namespace PrimeNumbers.Web.Services
             }
             else if (_numberOfPrimesToCalculate > 0)
             {
-                p = new int[] { 2, 3, 5, 7, 11 }[_numberOfPrimesToCalculate - 1];
+                p = new int[] { 2, 3, 5, 7, 11 }[_numberOfPrimesToCalculate];
             }
             else
             {
                 p = 0;
             }
-            return (int)p;
+
+            return p;
         }
     }
 }

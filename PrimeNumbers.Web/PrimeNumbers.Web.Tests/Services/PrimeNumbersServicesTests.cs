@@ -50,6 +50,16 @@ namespace PrimeNumbers.Web.Tests.Services
         }
 
         [TestMethod]
+        public void then_2_of_primes_can_be_returned()
+        {
+            _numberOfPrimesToCalculate = 2;
+            Execute();
+
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
+            CheckActualIsWithin1000List();
+        }
+
+        [TestMethod]
         public void then_100_of_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 100;
@@ -115,6 +125,15 @@ namespace PrimeNumbers.Web.Tests.Services
         protected override void Execute()
         {
             _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
+        }
+
+        [TestMethod]
+        public void then_big_numbers_of_primes_can_be_returned()
+        {
+            _numberOfPrimesToCalculate = 20000000;
+            Execute();
+
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
         }
     }
 

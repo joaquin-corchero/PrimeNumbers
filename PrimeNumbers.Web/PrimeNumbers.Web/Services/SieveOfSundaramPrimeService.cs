@@ -24,7 +24,7 @@ namespace PrimeNumbers.Web.Services
                     found++;
                 }
             }
-            return _primes;
+            return _primes.Take(numberOfPrimes).ToList();
         }
 
         private BitArray SieveOfSundaram(int limit)

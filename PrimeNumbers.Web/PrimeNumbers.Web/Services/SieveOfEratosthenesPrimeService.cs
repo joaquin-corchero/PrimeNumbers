@@ -10,13 +10,14 @@ namespace PrimeNumbers.Web.Services
     {
         public List<long> GetFirstPrimes(int numberOfPrimes)
         {
-            base._numberOfPrimesToCalculate = numberOfPrimes + 1;
+            base._numberOfPrimesToCalculate = numberOfPrimes;
             if (_primes.Count >= numberOfPrimes)
                 return _primes.Take(numberOfPrimes).ToList();
 
-            int limit = base.ApproximateNthPrime();
+            long limit = base.ApproximateNthPrimeLong();
+            //BitArray bits = SieveOfEratosthenes(limit);
+            bool[] bits = SiebeOfErathosthenes(limit);
             base.ResetCache();
-            BitArray bits = SieveOfEratosthenes(limit);
             for (int i = 0, found = 0; i < limit && found < _numberOfPrimesToCalculate; i++)
             {
                 if (bits[i])
@@ -25,8 +26,30 @@ namespace PrimeNumbers.Web.Services
                     found++;
                 }
             }
-            return _primes;
-        }        
+            return _primes.Take(numberOfPrimes).ToList();
+        }
+
+        private bool[] SiebeOfErathosthenes(long limit)
+        {
+            bool[] result = new bool[limit];//by default they're all false
+            for (int i = 2; i < limit; i++)
+            {
+                result[i] = true;//set all numbers to true
+            }
+            //weed out the non primes by finding mutiples 
+            for (int j = 2; j < limit; j++)
+            {
+                if (result[j])//is true
+                {
+                    for (long p = 2; (p * j) < limit; p++)
+                    {
+                        result[p * j] = false;
+                    }
+                }
+            }
+
+            return result;
+        }
 
         private BitArray SieveOfEratosthenes(int limit)
         {
