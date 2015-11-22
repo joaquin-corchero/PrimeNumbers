@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PrimeNumbers.Web.Models.InputModels;
-using PrimeNumbers.Web.Models.ViewModels;
+using PrimeNumbers.Web.Models;
 using PrimeNumbers.Web.Services;
 
 namespace PrimeNumbers.Web.Controllers
@@ -21,15 +20,12 @@ namespace PrimeNumbers.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(new PrimeInputModel());
+            return View(new PrimeViewModel());
         }
 
         [HttpPost]
-        [OutputCache(Duration = 2000, VaryByParam = "inputModel")]
-        public ActionResult Index(PrimeInputModel inputModel)
+        public ActionResult Index(PrimeViewModel model)
         {
-            PrimeViewModel model = new PrimeViewModel(inputModel);
-
             if (!ModelState.IsValid)
                 return View(model);
 

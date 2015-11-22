@@ -1,4 +1,4 @@
-﻿@model PrimeNumbers.Web.Models.ViewModels.PrimeViewModel
+﻿@model PrimeNumbers.Web.Models.PrimeViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>PrimeViewModel</h4>
+        <h4>Get N Primes</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -25,13 +25,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Send" class="btn btn-default" />
             </div>
         </div>
         @if(Model.Primes.Any())
         {
-            <h3>Results</h3>
-            <table class="table-bordered">
+            <h5>Results</h5>
+            <table class="table-bordered table-striped table-condensed">
                 <thead>
                     <tr>
                         <th></th>

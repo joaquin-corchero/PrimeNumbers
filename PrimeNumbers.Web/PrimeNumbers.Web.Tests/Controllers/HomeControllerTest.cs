@@ -8,8 +8,7 @@ using Moq;
 using NBehave.Spec.MSTest;
 using PrimeNumbers.Web;
 using PrimeNumbers.Web.Controllers;
-using PrimeNumbers.Web.Models.InputModels;
-using PrimeNumbers.Web.Models.ViewModels;
+using PrimeNumbers.Web.Models;
 using PrimeNumbers.Web.Services;
 
 namespace PrimeNumbers.Web.Tests.Controllers
@@ -32,12 +31,12 @@ namespace PrimeNumbers.Web.Tests.Controllers
     [TestClass]
     public class and_getting_the_index : when_working_with_the_home_controller
     {
-        private PrimeInputModel _outputModel;        
+        private PrimeViewModel _outputModel;        
 
         protected override void Execute()
         {
             _actual = _controller.Index() as ViewResult;
-            _outputModel = _actual.Model as PrimeInputModel;
+            _outputModel = _actual.Model as PrimeViewModel;
         }
 
         [TestMethod]
@@ -61,7 +60,7 @@ namespace PrimeNumbers.Web.Tests.Controllers
     public class and_posting_index : when_working_with_the_home_controller
     {
         private PrimeViewModel _viewModel;
-        private PrimeInputModel _inputModel = new PrimeInputModel(5);
+        private PrimeViewModel _inputModel = new PrimeViewModel(5);
         private List<int> _serviceOutPut = new List<int> { 2, 3, 5, 7, 11 };
 
         protected override void Establish_context()
@@ -79,8 +78,8 @@ namespace PrimeNumbers.Web.Tests.Controllers
         [TestMethod]
         public void then_if_there_are_validation_errors_with_the_input_the_view_is_returned()
         {
-            _inputModel = new PrimeInputModel(-1);
-            _controller.ModelState.AddModelError("PrimeInputModel", "There is an issue with the data");
+            _inputModel = new PrimeViewModel(-1);
+            _controller.ModelState.AddModelError("PrimeViewModel", "There is an issue with the data");
 
             Execute();
 

@@ -18,8 +18,8 @@ namespace PrimeNumbers.Web.Services
         {
             get
             {
-                if(_primes == null)
-                    _primesCache = new List<int> { 2 };
+                if(_primesCache == null)
+                    _primesCache = new List<int> { 2, 3 };
 
                 return _primesCache;
             }
@@ -30,7 +30,7 @@ namespace PrimeNumbers.Web.Services
             if (_primes.Count >= numberOfPrimes)
                 return _primes.Take(numberOfPrimes).ToList();
 
-            var number = _primes.LastOrDefault() + 1;
+            var number = _primes.LastOrDefault() + 2;
             while (_primes.Count() < numberOfPrimes)
             {
                 if(!_primes.Any(p => number % p == 0))
@@ -39,7 +39,7 @@ namespace PrimeNumbers.Web.Services
                 number = number + 2;
             }
 
-            return _primesCache;
+            return _primes;
         }
     }
 }

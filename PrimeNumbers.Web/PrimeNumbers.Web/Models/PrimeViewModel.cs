@@ -4,18 +4,23 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace PrimeNumbers.Web.Models.InputModels
+namespace PrimeNumbers.Web.Models
 {
-    public class PrimeInputModel
+    public class PrimeViewModel
     {
         [Required]
         [Range(minimum: 1, maximum:100)]
-        [Display(Description = "Number of primes to display")]
+        [Display(Name = "Number of primes to display")]
         public int? NumberOfPrimesToReturn { get; set; }
 
-        public PrimeInputModel(){}
+        public List<int> Primes { get; private set; }
 
-        public PrimeInputModel(int primesToReturn)
+        public PrimeViewModel()
+        {
+            Primes = new List<int>();
+        }
+
+        public PrimeViewModel(int primesToReturn) : this()
         {
             this.NumberOfPrimesToReturn = primesToReturn;
         }
@@ -23,6 +28,11 @@ namespace PrimeNumbers.Web.Models.InputModels
         public override string ToString()
         {
             return NumberOfPrimesToReturn.GetValueOrDefault(0).ToString();
+        }
+
+        internal void SetPrimes(List<int> primes)
+        {
+            this.Primes = primes;
         }
     }
 }
