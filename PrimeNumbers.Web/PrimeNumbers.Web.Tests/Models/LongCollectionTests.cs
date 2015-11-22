@@ -12,46 +12,131 @@ namespace PrimeNumbers.Web.Tests.Models
     [TestClass]
     public class when_working_with_the_long_collection : SpecBase
     {
-        private int _itemsPerContainer = 20;
-        private long _collectionLenght = 100;
-        private LongCollection _longColection;
+        private int _itemsPerContainer = 10;
+        private long _collectionLenght = 33;
+        private LongCollection _longCollection;
 
-        private void Execute()
+        private void InitializeCollection()
         {
-            _longColection = new LongCollection(_itemsPerContainer, _collectionLenght);
+            _longCollection = new LongCollection(_itemsPerContainer, _collectionLenght);
         }
 
         [TestMethod]
         public void then_the_number_of_collections_created_is_the_number_of_items_per_collection_divided_by_the_total_number_of_items()
         {
-            _collectionLenght = 33;
-            _itemsPerContainer = 10;
             var expected = 4;
-            Execute();
+            InitializeCollection();
 
-            _longColection.Containers.Count.ShouldEqual(expected);
+            _longCollection.CollectionContainers.Count.ShouldEqual(expected);
+        }
+
+        [TestMethod]
+        public void then_the_indexes_for_each_container_gets_set()
+        {
+            InitializeCollection();
+
+            _longCollection.CollectionContainers[0].StartIndex.ShouldEqual(0);
+            _longCollection.CollectionContainers[0].EndIndex.ShouldEqual(9);
+            _longCollection.CollectionContainers[1].StartIndex.ShouldEqual(10);
+            _longCollection.CollectionContainers[1].EndIndex.ShouldEqual(19);
+            _longCollection.CollectionContainers[2].StartIndex.ShouldEqual(20);
+            _longCollection.CollectionContainers[2].EndIndex.ShouldEqual(29);
+            _longCollection.CollectionContainers[3].StartIndex.ShouldEqual(30);
+            _longCollection.CollectionContainers[3].EndIndex.ShouldEqual(32);
         }
 
         [TestMethod]
         public void then_the_size_of_each_container_gets_set()
         {
-            _collectionLenght = 33;
-            _itemsPerContainer = 10;
-            var expected = 4;
-            Execute();
+            InitializeCollection();
 
-            _longColection.Containers[0].Length.ShouldEqual(10);
-            _longColection.Containers[1].Length.ShouldEqual(10);
-            _longColection.Containers[2].Length.ShouldEqual(10);
-            _longColection.Containers[3].Length.ShouldEqual(3);
+            _longCollection.CollectionContainers[0].BoolCollection.Count.ShouldEqual(10);
+            _longCollection.CollectionContainers[1].BoolCollection.Count.ShouldEqual(10);
+            _longCollection.CollectionContainers[2].BoolCollection.Count.ShouldEqual(10);
+            _longCollection.CollectionContainers[3].BoolCollection.Count.ShouldEqual(3);
+        }
+
+        [TestMethod]
+        public void then_the_sum_of_the_sizes_adds_up()
+        {
+            InitializeCollection();
+            var totalLength= _longCollection.CollectionContainers[0].BoolCollection.Count + 
+            _longCollection.CollectionContainers[1].BoolCollection.Count +
+            _longCollection.CollectionContainers[2].BoolCollection.Count +
+            _longCollection.CollectionContainers[3].BoolCollection.Count;
+
+            totalLength.ShouldEqual(Convert.ToInt32(this._collectionLenght));
         }
 
         [TestMethod]
         public void then_by_default_all_the_values_are_set_to_true()
         {
-            Execute();
+            InitializeCollection();
 
-            _longColection.Containers.ForEach(c => c.ToList().ForEach(i=> i.ShouldEqual(true)));
+            _longCollection.CollectionContainers.ForEach(c => c.BoolCollection.ForEach(i=> i.ShouldEqual(true)));
+        }
+
+        [TestMethod]
+        public void then_one_item_on_the_first_container_can_be_set()
+        {
+            int indexToSet = 5;
+            InitializeCollection();
+
+            _longCollection.SetToFalse(indexToSet);
+
+            for(var i=0; i < _longCollection.CollectionContainers[0].BoolCollection.Count; i ++)
+            {
+                var value = _longCollection.CollectionContainers[0].BoolCollection[i];
+                if (i == indexToSet)
+                    value.ShouldBeFalse();
+                else
+                    value.ShouldBeTrue();
+            }
+            _longCollection.CollectionContainers[1].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            _longCollection.CollectionContainers[2].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            _longCollection.CollectionContainers[3].BoolCollection.ForEach(i => i.ShouldEqual(true));
+        }
+
+        [TestMethod]
+        public void then_one_item_on_the_second_container_can_be_set()
+        {
+            int indexToSet = 22;
+            InitializeCollection();
+
+            _longCollection.SetToFalse(indexToSet);
+
+            for (var i = 0; i < _longCollection.CollectionContainers[2].BoolCollection.Count; i++)
+            {
+                var value = _longCollection.CollectionContainers[2].BoolCollection[i];
+                if (i == Convert.ToInt32(indexToSet % this._itemsPerContainer))
+                    value.ShouldBeFalse();
+                else
+                    value.ShouldBeTrue();
+            }
+            _longCollection.CollectionContainers[0].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            _longCollection.CollectionContainers[1].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            _longCollection.CollectionContainers[3].BoolCollection.ForEach(i => i.ShouldEqual(true));
+        }
+
+        [TestMethod]
+        public void then_one_item_on_the_last_position_can_be_set()
+        {
+            int indexToSet = Convert.ToInt32(_collectionLenght) -1;
+            InitializeCollection();
+
+            _longCollection.SetToFalse(indexToSet);
+
+            for (var i = 0; i < _longCollection.CollectionContainers[3].BoolCollection.Count; i++)
+            {
+                var value = _longCollection.CollectionContainers[3].BoolCollection[i];
+                if (i == Convert.ToInt32(indexToSet % this._itemsPerContainer))
+                    value.ShouldBeFalse();
+                else
+                    value.ShouldBeTrue();
+            }
+            _longCollection.CollectionContainers[0].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            _longCollection.CollectionContainers[1].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            _longCollection.CollectionContainers[2].BoolCollection.ForEach(i => i.ShouldEqual(true));
         }
     }
 }
