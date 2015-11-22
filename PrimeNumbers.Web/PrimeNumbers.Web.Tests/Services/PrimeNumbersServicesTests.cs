@@ -108,6 +108,15 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
             PrimeHelper.First1000Primes.ForEach(i => _actual.Contains(i).ShouldBeTrue());
         }
+
+        [TestMethod]
+        public void then_20000000_primes_can_be_returned()
+        {
+            _numberOfPrimesToCalculate = 20000000;
+            Execute();
+
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
+        }
     }
     /*
     [TestClass]
@@ -137,49 +146,16 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
         }
 
-        [Ignore]
         [TestMethod]
-        public void then_big_numbers_of_primes_can_be_returned()
+        public void then_int_near_max_value_numbers_of_primes_can_be_returned()
         {
-            _numberOfPrimesToCalculate = 20000000;
-            Execute();
-
-            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void then_int_max_value_nummbers_of_primes_can_be_returned()
-        {
-            _numberOfPrimesToCalculate = int.MaxValue;
+            _numberOfPrimesToCalculate = int.MaxValue / 100;
             Execute();
 
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
         }
     }
 
-    [TestClass]
-    public class and_getting_the_n_first_primes_with_the_sieve_of_eratosthenes__longservice : when_working_with_the_prime_number_services
-    {
-        protected override void Establish_context()
-        {
-            _service = new SieveOfEratosthenesPrimeLongService();
-        }
-
-        protected override void Execute()
-        {
-            _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
-        }
-
-        [TestMethod]
-        public void then_20000000_primes_can_be_returned()
-        {
-            _numberOfPrimesToCalculate = 20000000;
-            Execute();
-
-            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
-        }
-    }
     /*
     [TestClass]
     public class and_getting_the_n_first_primes_with_the_sieve_of_sundaram_service : when_working_with_the_prime_number_services
