@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PrimeNumbers.Web.Models.InputModels;
 using PrimeNumbers.Web.Services;
 
 namespace PrimeNumbers.Web.Controllers
@@ -16,9 +17,16 @@ namespace PrimeNumbers.Web.Controllers
             this._primeNumbersService = primeNumbersService;
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(new PrimeInputModel());
+        }
+
+        [HttpPost]
+        public ActionResult Index(PrimeInputModel _inputModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

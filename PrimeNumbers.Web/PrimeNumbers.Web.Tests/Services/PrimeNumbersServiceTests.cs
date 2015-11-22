@@ -77,6 +77,7 @@ namespace PrimeNumbers.Web.Tests.Services
             CheckActualIsWithin1000List();
         }
 
+        [Ignore]
         [TestMethod]
         public void then_1000_of_primes_can_be_returned()
         {
@@ -87,7 +88,7 @@ namespace PrimeNumbers.Web.Tests.Services
             CheckActualIsWithin1000List();
         }
 
-
+        [Ignore]
         [TestMethod]
         public void then_10000_of_primes_can_be_returned()
         {

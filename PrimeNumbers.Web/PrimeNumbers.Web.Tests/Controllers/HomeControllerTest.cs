@@ -9,6 +9,7 @@ using NBehave.Spec.MSTest;
 using PrimeNumbers.Web;
 using PrimeNumbers.Web.Controllers;
 using PrimeNumbers.Web.Models.InputModels;
+using PrimeNumbers.Web.Models.ViewModels;
 using PrimeNumbers.Web.Services;
 
 namespace PrimeNumbers.Web.Tests.Controllers
@@ -31,21 +32,33 @@ namespace PrimeNumbers.Web.Tests.Controllers
     [TestClass]
     public class and_getting_the_index : when_working_with_the_home_controller
     {
-        private PrimeInputModel _model = new PrimeInputModel(10, 5);
-        
+        private PrimeInputModel _outputModel;        
 
         protected override void Execute()
         {
             _actual = _controller.Index();
-            _model = (_actual as ViewResult).Model as PrimeInputModel;
+            _outputModel = (_actual as ViewResult).Model as PrimeInputModel;
         }
 
         [TestMethod]
-        public void then_a_default_input_model_is_returned()
+        public void then_an_empty_input_model_is_returned()
         {
+            Execute();
 
+            _outputModel.PrimesToReturn.ShouldBeNull();
+        }       
+    }
+
+    [TestClass]
+    public class and_posting_index : when_working_with_the_home_controller
+    {
+        private PrimeViewModel _viewModel;
+        private PrimeInputModel _inputModel = new PrimeInputModel(5);
+
+        protected override void Execute()
+        {
+            _actual = _controller.Index(_inputModel);
+            _viewModel = (_actual as ViewResult).Model as PrimeViewModel;
         }
-
-       
     }
 }

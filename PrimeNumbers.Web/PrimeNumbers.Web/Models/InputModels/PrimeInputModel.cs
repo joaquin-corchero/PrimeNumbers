@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,13 +8,14 @@ namespace PrimeNumbers.Web.Models.InputModels
 {
     public class PrimeInputModel
     {
-        private int v1;
-        private int v2;
+        [Required]
+        [Range(minimum: 1, maximum:100)]
+        [Display(Description = "Number of primes to display")]
+        public int? PrimesToReturn { get; set; }
 
-        public PrimeInputModel(int v1, int v2)
+        public PrimeInputModel(int primesToReturn)
         {
-            this.v1 = v1;
-            this.v2 = v2;
+            this.PrimesToReturn = primesToReturn;
         }
     }
 }
