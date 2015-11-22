@@ -96,7 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\LongCollection.cs" />
+    <Compile Include="Models\LongCollectionTests.cs" />
     <Compile Include="Models\PrimeViewModelTests.cs" />
     <Compile Include="PrimeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -24,7 +24,26 @@ namespace PrimeNumbers.Web.Tests.Models
         [TestMethod]
         public void then_the_number_of_collections_created_is_the_number_of_items_per_collection_divided_by_the_total_number_of_items()
         {
-            
+            _collectionLenght = 33;
+            _itemsPerContainer = 10;
+            var expected = 4;
+            Execute();
+
+            _longColection.Containers.Count.ShouldEqual(expected);
+        }
+
+        [TestMethod]
+        public void then_the_size_of_each_container_gets_set()
+        {
+            _collectionLenght = 33;
+            _itemsPerContainer = 10;
+            var expected = 4;
+            Execute();
+
+            _longColection.Containers[0].Length.ShouldEqual(10);
+            _longColection.Containers[1].Length.ShouldEqual(10);
+            _longColection.Containers[2].Length.ShouldEqual(10);
+            _longColection.Containers[3].Length.ShouldEqual(3);
         }
     }
 }
