@@ -8,13 +8,13 @@ namespace PrimeNumbers.Web.Tests.Services
 {
     public abstract class when_working_with_the_prime_number_service : SpecBase
     {
-        protected PrimeNumbersService _service;
+        protected PrimeNumbersServiceNaive _service;
 
         protected abstract void Execute();
 
         protected override void Establish_context()
         {
-            _service = new PrimeNumbersService();
+            _service = new PrimeNumbersServiceNaive();
         }
 
     }
@@ -22,20 +22,21 @@ namespace PrimeNumbers.Web.Tests.Services
     [TestClass]
     public class and_getting_the_n_first_primes : when_working_with_the_prime_number_service
     {
-        private List<int> _actual;
-        private int _numberOfPrimes = 5;
+        private List<long> _actual;
+        private int _numberOfPrimesToCalculate = 5;
+        private int _numberOfPrimesToDisplay = 10;
         //list taken from https://primes.utm.edu/lists/small/1000.txt
 
         protected override void Execute()
         {
-            _actual = _service.GetFirstPrimes(_numberOfPrimes);
+            _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
         }
 
         [TestMethod]
         public void then_n_number_of_items_are_returned()
         {
             int expected = 5;
-            _numberOfPrimes = expected;
+            _numberOfPrimesToCalculate = expected;
 
             Execute();
 
@@ -67,30 +68,30 @@ namespace PrimeNumbers.Web.Tests.Services
         [TestMethod]
         public void then_100_of_primes_can_be_returned()
         {
-            _numberOfPrimes = 100;
+            _numberOfPrimesToCalculate = 100;
             Execute();
 
-            _actual.Count().ShouldEqual(_numberOfPrimes);
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
             CheckActualIsWithin1000List();
         }
 
         [TestMethod]
         public void then_1000_of_primes_can_be_returned()
         {
-            _numberOfPrimes = 1000;
+            _numberOfPrimesToCalculate = 1000;
             Execute();
 
-            _actual.Count().ShouldEqual(_numberOfPrimes);
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
             CheckActualIsWithin1000List();
         }
 
         [TestMethod]
         public void then_10000_of_primes_can_be_returned()
         {
-            _numberOfPrimes = 10000;
+            _numberOfPrimesToCalculate = 10000;
             Execute();
 
-            _actual.Count().ShouldEqual(_numberOfPrimes);
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
             PrimeHelper.First1000Primes.ForEach(i => _actual.Contains(i).ShouldBeTrue());
         }
     }

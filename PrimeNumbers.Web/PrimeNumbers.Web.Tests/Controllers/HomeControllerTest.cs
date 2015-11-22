@@ -6,6 +6,7 @@ using NBehave.Spec.MSTest;
 using PrimeNumbers.Web.Controllers;
 using PrimeNumbers.Web.Models;
 using PrimeNumbers.Web.Services;
+using System.Linq;
 
 namespace PrimeNumbers.Web.Tests.Controllers
 {
@@ -40,7 +41,7 @@ namespace PrimeNumbers.Web.Tests.Controllers
         {
             Execute();
 
-            _outputModel.NumberOfPrimesToReturn.ShouldBeNull();
+            _outputModel.NumberOfPrimesToCalculate.ShouldBeNull();
         }
 
         [TestMethod]
@@ -56,8 +57,8 @@ namespace PrimeNumbers.Web.Tests.Controllers
     public class and_posting_index : when_working_with_the_home_controller
     {
         private PrimeViewModel _viewModel;
-        private PrimeViewModel _inputModel = new PrimeViewModel(5);
-        private List<int> _serviceOutPut = new List<int> { 2, 3, 5, 7, 11 };
+        private PrimeViewModel _inputModel = new PrimeViewModel(5, 5);
+        private List<long> _serviceOutPut = PrimeHelper.First1000Primes.Take(5).ToList();
 
         protected override void Establish_context()
         {
@@ -74,7 +75,7 @@ namespace PrimeNumbers.Web.Tests.Controllers
         [TestMethod]
         public void then_if_there_are_validation_errors_with_the_input_the_view_is_returned()
         {
-            _inputModel = new PrimeViewModel(-1);
+            _inputModel = new PrimeViewModel(-1, 5);
             _controller.ModelState.AddModelError("PrimeViewModel", "There is an issue with the data");
 
             Execute();
@@ -89,8 +90,8 @@ namespace PrimeNumbers.Web.Tests.Controllers
         {
             Execute();
 
-            _primeService.Verify(s => s.GetFirstPrimes(_inputModel.NumberOfPrimesToReturn.Value), Times.Once);
-            _viewModel.NumberOfPrimesToReturn.ShouldEqual(_inputModel.NumberOfPrimesToReturn);
+            _primeService.Verify(s => s.GetFirstPrimes(_inputModel.NumberOfPrimesToCalculate.Value), Times.Once);
+            _viewModel.NumberOfPrimesToCalculate.ShouldEqual(_inputModel.NumberOfPrimesToCalculate);
             _viewModel.Primes.ShouldEqual(_serviceOutPut);
         }
     }

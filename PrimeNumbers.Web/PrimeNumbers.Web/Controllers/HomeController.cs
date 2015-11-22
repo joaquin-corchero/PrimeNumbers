@@ -25,7 +25,7 @@ namespace PrimeNumbers.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.Populate(_primeNumbersService.GetFirstPrimes(model.NumberOfPrimesToReturn.Value));
+            model.Populate(_primeNumbersService.GetFirstPrimes(model.NumberOfPrimesToCalculate.Value));
 
             return View(model);
         }

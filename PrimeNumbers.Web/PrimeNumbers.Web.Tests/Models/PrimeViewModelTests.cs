@@ -14,12 +14,15 @@ namespace PrimeNumbers.Web.Tests.Models
     [TestClass]
     public class and_populating_the_model : when_working_with_the_prime_view_model
     {
-        private List<int> _primes;
-        private PrimeViewModel _model = new PrimeViewModel(3);
+        private List<long> _primes;
+        private int _numberOfPrimesToCalculate = 100;
+        private int _numberOfPrimesToDisplay = 10;
+        private PrimeViewModel _model;
 
         protected override void Execute()
         {
-            _primes = PrimeHelper.First1000Primes.Take(_model.NumberOfPrimesToReturn.Value).ToList();
+            _model = new PrimeViewModel(_numberOfPrimesToCalculate, _numberOfPrimesToDisplay);
+            _primes = PrimeHelper.First1000Primes.Take(_model.NumberOfPrimesToCalculate.Value).ToList();
             _model.Populate(_primes);
         }
 
@@ -29,14 +32,24 @@ namespace PrimeNumbers.Web.Tests.Models
             Execute();
 
             _model.Primes.ShouldEqual(_primes);
+            _model.Primes.Count.ShouldEqual(_model.NumberOfPrimesToCalculate.Value);
         }
 
         [TestMethod]
-        public void then_the_rows_number_is_equal_to_the_number_of_primes()
+        public void then_if_there_are_less_numbers_to_calculate_than_display_the_number_ro_display_is_set_to_the_ones_to_calculate()
+        {
+            _numberOfPrimesToDisplay = _numberOfPrimesToCalculate - 1;
+            Execute();
+
+            _model.Rows.Count().ShouldEqual(_model.NumberOfPrimesToCalculate.Value);
+        }
+
+        [TestMethod]
+        public void then_the_number_of_rows_is_equal_the_the_number_of_primes_to_display()
         {
             Execute();
 
-            _model.Rows.Count().ShouldEqual(_primes.Count);
+            _model.Rows.Count().ShouldEqual(_model.NumberOfPrimesToDisplay);
         }
 
         [TestMethod]

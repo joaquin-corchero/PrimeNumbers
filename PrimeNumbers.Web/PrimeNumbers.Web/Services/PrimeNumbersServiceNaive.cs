@@ -3,27 +3,24 @@ using System.Linq;
 
 namespace PrimeNumbers.Web.Services
 {
-    public interface IPrimeNumbersService
-    {
-        List<int> GetFirstPrimes(int numberOfPrimes);
-    }
+    
 
-    public class PrimeNumbersService : IPrimeNumbersService
+    public class PrimeNumbersServiceNaive : IPrimeNumbersService
     {
-        private static List<int> _primesCache;
+        private static List<long> _primesCache;
 
-        private static List<int> _primes
+        private static List<long> _primes
         {
             get
             {
                 if(_primesCache == null)
-                    _primesCache = new List<int> { 2, 3 };
+                    _primesCache = new List<long> { 2, 3 };
 
                 return _primesCache;
             }
         }
 
-        public List<int> GetFirstPrimes(int numberOfPrimes)
+        public List<long> GetFirstPrimes(int numberOfPrimes)
         {
             if (_primes.Count >= numberOfPrimes)
                 return _primes.Take(numberOfPrimes).ToList();

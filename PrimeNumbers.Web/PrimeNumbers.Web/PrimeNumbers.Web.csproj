@@ -152,7 +152,8 @@
     </Compile>
     <Compile Include="Models\PrimeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\PrimeNumbersService.cs" />
+    <Compile Include="Services\IPrimeNumbersService.cs" />
+    <Compile Include="Services\PrimeNumbersServiceNaive.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
