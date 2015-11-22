@@ -25,9 +25,10 @@ namespace PrimeNumbers.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(PrimeInputModel _inputModel)
+        [OutputCache(Duration = 2000, VaryByParam = "inputModel")]
+        public ActionResult Index(PrimeInputModel inputModel)
         {
-            PrimeViewModel model = new PrimeViewModel(_inputModel);
+            PrimeViewModel model = new PrimeViewModel(inputModel);
 
             if (!ModelState.IsValid)
                 return View(model);

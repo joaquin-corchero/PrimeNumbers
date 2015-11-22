@@ -19,5 +19,10 @@ namespace PrimeNumbers.Web.Models.InputModels
         {
             this.NumberOfPrimesToReturn = primesToReturn;
         }
+
+        public override string ToString()
+        {
+            return NumberOfPrimesToReturn.GetValueOrDefault(0).ToString();
+        }
     }
 }
