@@ -7,14 +7,25 @@ namespace PrimeNumbers.Web.Services
 {
     public class PrimeNumberService
     {
-        public List<int> GetFirstPrimes(int numberOfPrimes)
+        public List<long> GetFirstPrimes(long numberOfPrimes)
         {
-            List<int> result = new List<int>();
-            var counter = 0;
+            List<long> result = new List<long> { 2 };
+            var number = 3;
             while (result.Count() < numberOfPrimes)
             {
-                result.Add(counter);
-                counter++;
+                var foundDivider = true;
+                foreach(var i in result)
+                {
+                    if (number % i == 0)
+                        number++;
+                    else
+                        foundDivider = false;
+                }
+
+                if (!foundDivider)
+                    result.Add(number);
+
+                number++;
             }
 
             return result;
