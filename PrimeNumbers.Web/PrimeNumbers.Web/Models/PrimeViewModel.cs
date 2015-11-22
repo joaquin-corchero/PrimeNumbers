@@ -6,6 +6,7 @@ namespace PrimeNumbers.Web.Models
 {
     public class PrimeViewModel
     {
+        private const int NUMBER_OF_PRIMES_TO_DISPLAY = 10;
         [Required]
         [Range(minimum: 1, maximum:int.MaxValue)]
         [Display(Name = "Number of primes to calculate")]
@@ -16,10 +17,7 @@ namespace PrimeNumbers.Web.Models
 
         public List<long> Primes { get; private set; }
 
-        public List<long> PrimesToDisplay
-        {
-            get { return this.Primes.Take(NumberOfPrimesToDisplay).ToList(); }
-        }
+        public List<long> PrimesToDisplay { get { return this.Primes.Take(NumberOfPrimesToDisplay).ToList(); } }
 
         public List<List<long>> Rows { get; private set; }
 
@@ -27,6 +25,7 @@ namespace PrimeNumbers.Web.Models
         {
             Primes = new List<long>();
             Rows = new List<List<long>>();
+            NumberOfPrimesToDisplay = NUMBER_OF_PRIMES_TO_DISPLAY;
         }
 
         public PrimeViewModel(int primesToCalculate, int primesToDisplay) : this()
@@ -37,9 +36,6 @@ namespace PrimeNumbers.Web.Models
 
         public void Populate(List<long> primes)
         {
-            if (this.NumberOfPrimesToDisplay < this.NumberOfPrimesToCalculate)
-                this.NumberOfPrimesToDisplay = this.NumberOfPrimesToCalculate.Value;
-
             this.Primes = primes;
             this.PopulateRows();
         }
@@ -54,7 +50,7 @@ namespace PrimeNumbers.Web.Models
             var firstItem = prime;
             var row = new List<long> { firstItem };
 
-            this.Primes.ForEach(p => row.Add(p * firstItem));
+            this.PrimesToDisplay.ForEach(p => row.Add(p * firstItem));
 
             this.Rows.Add(row);
         }

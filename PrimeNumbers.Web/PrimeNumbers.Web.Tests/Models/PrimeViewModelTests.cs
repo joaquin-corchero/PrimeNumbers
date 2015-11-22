@@ -36,15 +36,6 @@ namespace PrimeNumbers.Web.Tests.Models
         }
 
         [TestMethod]
-        public void then_if_there_are_less_numbers_to_calculate_than_display_the_number_ro_display_is_set_to_the_ones_to_calculate()
-        {
-            _numberOfPrimesToDisplay = _numberOfPrimesToCalculate - 1;
-            Execute();
-
-            _model.Rows.Count().ShouldEqual(_model.NumberOfPrimesToCalculate.Value);
-        }
-
-        [TestMethod]
         public void then_the_number_of_rows_is_equal_the_the_number_of_primes_to_display()
         {
             Execute();
@@ -70,7 +61,7 @@ namespace PrimeNumbers.Web.Tests.Models
             Execute();
 
             foreach (var row in _model.Rows)
-                row.Count.ShouldEqual(_model.Primes.Count + 1);
+                row.Count.ShouldEqual(_model.PrimesToDisplay.Count + 1);
         }
 
         [TestMethod]
@@ -78,7 +69,7 @@ namespace PrimeNumbers.Web.Tests.Models
         {
             Execute();
 
-            for(var i = 0; i < _model.Primes.Count; i ++)
+            for(var i = 0; i < _model.PrimesToDisplay.Count; i ++)
             {
                 var row = _model.Rows[i];
                 for (var y = 1; y < row.Count; y ++)
