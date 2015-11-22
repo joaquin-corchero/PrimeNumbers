@@ -5,9 +5,14 @@ using System.Web;
 
 namespace PrimeNumbers.Web.Services
 {
-    public class PrimeNumberService
+    public interface IPrimeNumbersService
     {
-        private static List<int> _primes = new List<int> { 2};
+        List<int> GetFirstPrimes(int numberOfPrimes);
+    }
+
+    public class PrimeNumbersService : IPrimeNumbersService
+    {
+        private static List<int> _primes = new List<int> { 2 };
 
         public List<int> GetFirstPrimes(int numberOfPrimes)
         {
@@ -20,7 +25,7 @@ namespace PrimeNumbers.Web.Services
                 if(! _primes.Any(p => number % p == 0))
                     _primes.Add(number);
 
-                number = number +2;
+                number = number + 2;
             }
 
             return _primes;

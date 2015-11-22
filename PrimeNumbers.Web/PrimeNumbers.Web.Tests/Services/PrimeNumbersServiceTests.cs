@@ -10,13 +10,13 @@ namespace PrimeNumbers.Web.Tests.Services
 {
     public abstract class when_working_with_the_prime_number_service : SpecBase
     {
-        protected PrimeNumberService _service;
+        protected PrimeNumbersService _service;
 
         protected abstract void Execute();
 
         protected override void Establish_context()
         {
-            _service = new PrimeNumberService();
+            _service = new PrimeNumbersService();
         }
 
     }
