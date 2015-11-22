@@ -69,11 +69,19 @@ namespace PrimeNumbers.Web.Tests.Models
         }
 
         [TestMethod]
-        public void then_by_default_all_the_values_are_set_to_true()
+        public void then_by_default_all_the_values_but_0_and_1_are_set_to_true()
         {
             InitializeCollection();
-
-            _longCollection.CollectionContainers.ForEach(c => c.BoolCollection.ForEach(i=> i.ShouldEqual(true)));
+            for(var i = 0; i < _longCollection.CollectionContainers.Count; i ++)
+            {
+                for(var y =0; i < _longCollection.CollectionContainers[i].BoolCollection.Count; i ++)
+                {
+                    if(i ==0 && y== 0 || y ==1)
+                        _longCollection.CollectionContainers[i].BoolCollection[y].ShouldBeFalse();
+                    else
+                        _longCollection.CollectionContainers[i].BoolCollection[y].ShouldBeTrue();
+                }
+            }
         }
 
         [TestMethod]
@@ -84,10 +92,10 @@ namespace PrimeNumbers.Web.Tests.Models
 
             _longCollection.SetToFalse(indexToSet);
 
-            for(var i=0; i < _longCollection.CollectionContainers[0].BoolCollection.Count; i ++)
+            for (var i = 0; i < _longCollection.CollectionContainers[0].BoolCollection.Count; i++)
             {
                 var value = _longCollection.CollectionContainers[0].BoolCollection[i];
-                if (i == indexToSet)
+                if (i == indexToSet || i == 0 || i == 1)
                     value.ShouldBeFalse();
                 else
                     value.ShouldBeTrue();
@@ -113,7 +121,7 @@ namespace PrimeNumbers.Web.Tests.Models
                 else
                     value.ShouldBeTrue();
             }
-            _longCollection.CollectionContainers[0].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            
             _longCollection.CollectionContainers[1].BoolCollection.ForEach(i => i.ShouldEqual(true));
             _longCollection.CollectionContainers[3].BoolCollection.ForEach(i => i.ShouldEqual(true));
         }
@@ -134,9 +142,21 @@ namespace PrimeNumbers.Web.Tests.Models
                 else
                     value.ShouldBeTrue();
             }
-            _longCollection.CollectionContainers[0].BoolCollection.ForEach(i => i.ShouldEqual(true));
+            
             _longCollection.CollectionContainers[1].BoolCollection.ForEach(i => i.ShouldEqual(true));
             _longCollection.CollectionContainers[2].BoolCollection.ForEach(i => i.ShouldEqual(true));
+        }
+
+        [TestMethod]
+        public void then_the_value_of_an_item_can_be_found()
+        {
+            int indexToGet = 5;
+            InitializeCollection();
+
+            _longCollection.CollectionContainers[0].BoolCollection[5] = false;
+
+            var actual = _longCollection.Get(indexToGet);
+            actual.ShouldBeFalse();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using PrimeNumbers.Web.Models;
 
 namespace PrimeNumbers.Web.Services
 {
@@ -13,7 +14,7 @@ namespace PrimeNumbers.Web.Services
             long limit = base.ApproximateNthPrimeLong();
 
             bool[] bits = SiebeOfErathosthenes(limit);
-            
+
             base.ResetCache();
             for (int i = 0, found = 0; i < limit && found < NumberOfPrimes; i++)
             {

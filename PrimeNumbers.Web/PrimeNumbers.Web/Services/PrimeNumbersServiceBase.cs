@@ -62,7 +62,7 @@ namespace PrimeNumbers.Web.Services
             }
             else if (NumberOfPrimes > 0)
             {
-                p = new int[] { 2, 3, 5, 7, 11 }[NumberOfPrimes];
+                p = new int[] { 2, 3, 5, 7, 11, 13 }[NumberOfPrimes];
             }
             else
             {

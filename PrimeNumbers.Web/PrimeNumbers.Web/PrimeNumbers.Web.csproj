@@ -156,6 +156,7 @@
     <Compile Include="Models\LongCollection.cs" />
     <Compile Include="Services\PrimeNumbersServiceBase.cs" />
     <Compile Include="Services\PrimeNumbersServiceNaive.cs" />
+    <Compile Include="Services\SieveOfEratosthenesPrimeLongService.cs" />
     <Compile Include="Services\SieveOfEratosthenesPrimeService.cs" />
     <Compile Include="Services\SieveOfSundaramPrimeService.cs" />
   </ItemGroup>

@@ -37,6 +37,8 @@ namespace PrimeNumbers.Web.Models
             this.CollectionLenght = collectionLenght;
 
             InitializeContainers();
+            this.SetToFalse(0);
+            this.SetToFalse(1);
         }
 
         private void InitializeContainers()
@@ -62,11 +64,19 @@ namespace PrimeNumbers.Web.Models
             }
         }
 
-        public void SetToFalse(int index)
+        public bool Get(int index)
         {
             var collection = this.CollectionContainers.FirstOrDefault(c => c.StartIndex <= index && c.EndIndex >= index);
 
-            var indexToSet = index % this._itemsPerContainer;
+            var indexToGet = index % this._itemsPerContainer;
+            return collection.BoolCollection[indexToGet];
+        }
+
+        public void SetToFalse(long index)
+        {
+            var collection = this.CollectionContainers.FirstOrDefault(c => c.StartIndex <= index && c.EndIndex >= index);
+
+            var indexToSet = Convert.ToInt32(index % this._itemsPerContainer);
             collection.BoolCollection[indexToSet] = false;
         }
     }
