@@ -10,7 +10,7 @@ namespace PrimeNumbers.Web.Models
         private int _itemsPerContainer;
         public long CollectionLenght { get; private set; }
 
-        public List<long[]> Containers = new List<long[]>();
+        public List<bool[]> Containers = new List<bool[]>();
 
         public LongCollection(int itemsPerContainer, long collectionLenght)
         {
@@ -30,12 +30,25 @@ namespace PrimeNumbers.Web.Models
             for (var i = 0; i < numberOfCollections; i++)
             {
                 if (itemsLeftToAllocate < _itemsPerContainer)
-                    Containers.Add(new long[itemsLeftToAllocate]);
+                    Containers.Add(new bool[itemsLeftToAllocate]);
                 else
-                    Containers.Add(new long[this._itemsPerContainer]);
+                    Containers.Add(new bool[this._itemsPerContainer]);
 
                 itemsLeftToAllocate -= this._itemsPerContainer;
             }
+
+            InitializeContainerValues();
         }
+
+        public void InitializeContainerValues()
+        {
+            Containers.ForEach(c =>
+            {
+                for (var i = 0; i < c.Length; i++)
+                    c[i] = true;
+            });
+        }
+
+        
     }
 }

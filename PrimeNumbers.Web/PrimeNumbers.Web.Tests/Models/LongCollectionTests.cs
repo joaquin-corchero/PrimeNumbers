@@ -45,5 +45,13 @@ namespace PrimeNumbers.Web.Tests.Models
             _longColection.Containers[2].Length.ShouldEqual(10);
             _longColection.Containers[3].Length.ShouldEqual(3);
         }
+
+        [TestMethod]
+        public void then_by_default_all_the_values_are_set_to_true()
+        {
+            Execute();
+
+            _longColection.Containers.ForEach(c => c.ToList().ForEach(i=> i.ShouldEqual(true)));
+        }
     }
 }
