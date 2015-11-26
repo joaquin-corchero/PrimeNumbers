@@ -128,6 +128,7 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual = _service.GetFirstPrimes(_numberOfPrimesToCalculate);
         }
 
+        [Ignore]
         [TestMethod]
         public void then_int_near_max_value_numbers_of_primes_can_be_returned()
         {
@@ -137,6 +138,7 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
         }
 
+        [Ignore]
         [TestMethod]
         public void then_20000000_primes_can_be_returned()
         {
