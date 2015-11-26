@@ -29,13 +29,10 @@ namespace PrimeNumbers.Web.Services
 
         private bool[] SieveOfErathosthenes(long limit)
         {
-            int numberOfArraysNeeded = Convert.ToInt32(Math.Round(Convert.ToDecimal(limit / int.MaxValue), 0));
-
             bool[] result = new bool[limit];
             for (int i = 2; i < limit; i++)
-            {
                 result[i] = true;
-            }
+
             //weed out the non primes by finding mutiples 
             for (int j = 2; j < limit; j++)
             {
