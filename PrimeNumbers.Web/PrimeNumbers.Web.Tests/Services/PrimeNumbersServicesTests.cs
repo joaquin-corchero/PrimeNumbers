@@ -138,7 +138,6 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
         }
 
-        [Ignore]
         [TestMethod]
         public void then_20000000_primes_can_be_returned()
         {

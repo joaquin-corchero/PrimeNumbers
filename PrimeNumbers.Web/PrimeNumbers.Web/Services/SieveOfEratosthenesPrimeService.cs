@@ -18,7 +18,7 @@ namespace PrimeNumbers.Web.Services
             base.ResetCache();
             for (int i = 0, found = 0; i < limit && found < NumberOfPrimes; i++)
             {
-                if (bits[i])
+                if (!bits[i])
                 {
                     _primes.Add(i);
                     found++;
@@ -30,17 +30,17 @@ namespace PrimeNumbers.Web.Services
         private bool[] SieveOfErathosthenes(long limit)
         {
             bool[] result = new bool[limit];
-            for (int i = 2; i < limit; i++)
-                result[i] = true;
+            result[0] = true;
+            result[1] = true;
 
             //weed out the non primes by finding mutiples 
             for (int j = 2; j < limit; j++)
             {
-                if (result[j])//is true
+                if (!result[j])//is true
                 {
                     for (long p = 2; (p * j) < limit; p++)
                     {
-                        result[p * j] = false;
+                        result[p * j] = true;
                     }
                 }
             }
