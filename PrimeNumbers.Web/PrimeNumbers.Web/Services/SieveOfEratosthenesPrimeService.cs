@@ -9,16 +9,35 @@ namespace PrimeNumbers.Web.Services
 {
     public class SieveOfEratosthenesPrimeService : PrimeNumbersServiceBase, IPrimeNumbersService
     {
+        private static bool[] _arePrimesCached;
+
+        public static bool[] CachedItems
+        {
+            get
+            {
+                if (_arePrimesCached == null)
+                {
+                    _arePrimesCached = new bool[2];
+                    _arePrimesCached[0] = true;
+                    _arePrimesCached[1] = true;
+                }
+
+                return _arePrimesCached;
+            }
+            set { _arePrimesCached = value; }
+        }
+
         public override List<long> GeneratePrimes()
         {
             long limit = base.ApproximateNthPrimeLong();
 
-            bool[] bits = SieveOfErathosthenes(limit);
+            if(limit > CachedItems.Length)
+                ExecuteSieveOfErathosthenes(limit);
 
             base.ResetCache();
             for (int i = 0, found = 0; i < limit && found < NumberOfPrimes; i++)
             {
-                if (!bits[i])
+                if (!CachedItems[i])
                 {
                     _primes.Add(i);
                     found++;
@@ -27,25 +46,26 @@ namespace PrimeNumbers.Web.Services
             return _primes.Take(NumberOfPrimes).ToList();
         }
 
-        private bool[] SieveOfErathosthenes(long limit)
+        private void ExecuteSieveOfErathosthenes(long limit)
         {
-            bool[] result = new bool[limit];
-            result[0] = true;
-            result[1] = true;
+            var oldSize = CachedItems.Length;
+            var cachedItems = CachedItems;
+
+            Array.Resize(ref cachedItems, Convert.ToInt32(limit));
 
             //weed out the non primes by finding mutiples 
             for (int j = 2; j < limit; j++)
             {
-                if (!result[j])//is true
+                if (!cachedItems[j])//is true
                 {
                     for (long p = 2; (p * j) < limit; p++)
                     {
-                        result[p * j] = true;
+                        cachedItems[p * j] = true;
                     }
                 }
             }
 
-            return result;
+            CachedItems = cachedItems;
         }
     }
 }

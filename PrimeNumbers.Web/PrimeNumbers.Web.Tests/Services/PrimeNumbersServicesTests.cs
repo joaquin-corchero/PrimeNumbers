@@ -20,7 +20,7 @@ namespace PrimeNumbers.Web.Tests.Services
         }
 
         [TestMethod]
-        public void then_n_number_of_items_are_returned()
+        public void then_5_items_are_returned()
         {
             int expected = 5;
             _numberOfPrimesToCalculate = expected;
@@ -28,6 +28,7 @@ namespace PrimeNumbers.Web.Tests.Services
             Execute();
 
             _actual.Count().ShouldEqual(expected);
+            CheckActualIsWithin1000List();
         }
 
         [TestMethod]
@@ -47,13 +48,17 @@ namespace PrimeNumbers.Web.Tests.Services
             CheckActualIsWithin1000List();
         }
 
-        private void CheckActualIsWithin1000List()
+        protected void CheckActualIsWithin1000List()
         {
-            _actual.Any(a => !PrimeHelper.First1000Primes.Contains(a)).ShouldBeFalse();
+            for(var i = 0; i < _actual.Count; i ++)
+            {
+                var isFound = _actual[i] == PrimeHelper.First1000Primes[i];
+                isFound.ShouldBeTrue();
+            }
         }
 
         [TestMethod]
-        public void then_2_of_primes_can_be_returned()
+        public void then_2_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 2;
             Execute();
@@ -63,7 +68,7 @@ namespace PrimeNumbers.Web.Tests.Services
         }
 
         [TestMethod]
-        public void then_100_of_primes_can_be_returned()
+        public void then_100_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 100;
             Execute();
@@ -73,7 +78,7 @@ namespace PrimeNumbers.Web.Tests.Services
         }
 
         [TestMethod]
-        public void then_10_of_primes_can_be_returned()
+        public void then_10_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 10;
             Execute();
@@ -83,7 +88,7 @@ namespace PrimeNumbers.Web.Tests.Services
         }
 
         [TestMethod]
-        public void then_57_of_primes_can_be_returned()
+        public void then_57_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 57;
             Execute();
@@ -93,7 +98,7 @@ namespace PrimeNumbers.Web.Tests.Services
         }
 
         [TestMethod]
-        public void then_1000_of_primes_can_be_returned()
+        public void then_1000_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 1000;
             Execute();
@@ -103,7 +108,7 @@ namespace PrimeNumbers.Web.Tests.Services
         }
 
         [TestMethod]
-        public void then_10000_of_primes_can_be_returned()
+        public void then_10000_primes_can_be_returned()
         {
             _numberOfPrimesToCalculate = 10000;
             Execute();
@@ -117,9 +122,11 @@ namespace PrimeNumbers.Web.Tests.Services
     [TestClass]
     public class and_getting_the_n_first_primes_with_the_sieve_of_eratosthenes_service : when_working_with_the_prime_number_services
     {
+        private SieveOfEratosthenesPrimeService _serviceInstance = new SieveOfEratosthenesPrimeService();
+
         protected override void Establish_context()
         {
-            _service = new SieveOfEratosthenesPrimeService();
+            _service = _serviceInstance;
         }
 
         protected override void Execute()
@@ -138,6 +145,7 @@ namespace PrimeNumbers.Web.Tests.Services
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
         }
 
+        [Ignore]
         [TestMethod]
         public void then_20000000_primes_can_be_returned()
         {
@@ -145,6 +153,28 @@ namespace PrimeNumbers.Web.Tests.Services
             Execute();
 
             _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
+        }
+
+        [TestMethod]
+        public void then_the_byte_array_gets_cached()
+        {
+            SieveOfEratosthenesPrimeService.CachedItems = null;
+            _numberOfPrimesToCalculate = 100;
+            int sizeOfArePrimes = 613;
+
+            Execute();
+
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
+            SieveOfEratosthenesPrimeService.CachedItems.Length.ShouldEqual(sizeOfArePrimes);
+            CheckActualIsWithin1000List();
+
+            _numberOfPrimesToCalculate = 20;
+
+            Execute();
+
+            _actual.Count().ShouldEqual(_numberOfPrimesToCalculate);
+            SieveOfEratosthenesPrimeService.CachedItems.Length.ShouldEqual(sizeOfArePrimes);
+            CheckActualIsWithin1000List();
         }
     }
 }
